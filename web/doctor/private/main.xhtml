@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:html5="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      <ui:composition>
+        <table class="table table-hover mt-2">
+            <thead class="thead-dark" >
+                <tr>
+                    <th scope="col">Nombres</th>
+                    <th scope="col">Tipo identificacion</th>
+                    <th scope="col">Identificacion</th>
+                    <th scope="col">Tarjeta profesional</th>
+                    <th scope="col">Años experiencia</th>
+                    <th scope="col">Especialidad</th>
+                    <th scope="col">Horario de atención</th>
+                    <th scope="col">Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach items="#{doctorRequest.doctorsList}" var="doctor">
+                <tr>
+                    <td>#{doctor.nombres}</td>
+                    <td>#{doctor.tipoIdentificacion}</td>
+                    <td>#{doctor.identificacion}</td>
+                    <td>#{doctor.tarjetaProfesional}</td>
+                    <td>#{doctor.aniosExperiencia}</td>
+                    <td>#{doctor.especialidad}</td>
+                    <td>#{doctor.horaInicioAtencion}:00  - #{doctor.horaFinAtencion}:00 </td>
+                    <td>
+                        <h:form>
+                            <h:commandButton
+                                action="#{doctorRequest.editDoctor(doctor)}"
+                                value="Editar"
+                                class="btn btn-warning mr-2">
+                            </h:commandButton>
+                            <h:commandButton
+                                value="Eliminar"
+                                class="btn btn-danger" 
+                                action="#{doctorRequest.deleteDoctor(doctor)}">
+                            </h:commandButton>
+                        </h:form>
+                    </td>
+                </tr>
+                </c:forEach>    
+            </tbody>
+        </table>
+        <button type="button" data-toggle='modal' data-target='#reg-medico'  class="ml-2 mb-5 btn btn-dark btn-xs">Nuevo Registro</button>
+
+        <div class="modal fade" id="reg-medico" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Registrar Doctor</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <h:form>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <h:inputText
+                                    html5:placeholder="Nombres Completos..." 
+                                    class="form-control"
+                                    value="#{doctorRequest.doctor.nombres}">
+                                </h:inputText>
+                            </div>
+                            <div class="form-group">
+                                <h:inputText 
+                                    html5:placeholder="Tarjeta Profesional" 
+                                    class="form-control"
+                                    value="#{doctorRequest.doctor.tarjetaProfesional}">
+                                </h:inputText>
+                            </div>
+                            <h:selectOneMenu 
+                                value="#{doctorRequest.doctor.tipoIdentificacion}"              
+                                class="form-control mb-4">
+                                <f:selectItem 
+                                    itemLabel="Cedula" 
+                                    itemValue="CC">
+                                </f:selectItem>
+                                <f:selectItem 
+                                    itemLabel="Cedula Extranjeria" 
+                                    itemValue="CE">
+                                </f:selectItem>
+                            </h:selectOneMenu>
+                            <div class="form-group">
+                                <h:inputText 
+                                    html5:placeholder="Nro. identificacion..." 
+                                    class="form-control"
+                                    value="#{doctorRequest.doctor.identificacion}">
+                                </h:inputText>
+                            </div>
+                            <div class="form-group">
+                                <h:inputText html5:placeholder="Años de experiencia" 
+                                    class="form-control"
+                                    value="#{doctorRequest.doctor.aniosExperiencia}">
+                                </h:inputText>
+                            </div>
+                            <div class="form-group">
+                                <h:inputText html5:placeholder="Inicio atención (Hora)" 
+                                    class="form-control"
+                                    value="#{doctorRequest.doctor.horaInicioAtencion}">
+                                </h:inputText>
+                            </div>
+                            <div class="form-group">
+                                <h:inputText html5:placeholder="Fin atención (Hora)" 
+                                    class="form-control"
+                                    value="#{doctorRequest.doctor.horaFinAtencion}">
+                                </h:inputText>
+                            </div>
+                            <div class="form-group">
+                                <h:inputText html5:placeholder="Especialidad" 
+                                    class="form-control"
+                                    value="#{doctorRequest.doctor.especialidad}">
+                                </h:inputText>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <h:commandButton 
+                                class="btn btn-info" value="Guardar"
+                                action="#{doctorRequest.addDoctor()}">
+                            </h:commandButton>
+                        </div>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </ui:composition>
+</html>
+

@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:html5="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      <ui:composition>
+        <table class="table table-hover mt-2">
+            <thead class="thead-dark" >
+                <tr>
+                    <th scope="col">Fecha cita</th>
+                    <th scope="col">Hora</th>
+                    <th scope="col">Medico</th>
+                    <th scope="col">Paciente</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach items="#{appointmentView.appointmentList}" var="appointment">
+                <tr>
+                    <td>#{appointment.fechaCita}</td>
+                    <td>#{appointment.horaCita}:00</td>
+                    <td>#{appointment.idmedicos.nombres}</td>
+                    <td>#{appointment.idpaciente.nombres}</td>
+                </tr>
+                </c:forEach>    
+            </tbody>
+        </table>
+        <button type="button" data-toggle='modal' data-target='#reg-appointment'  class="ml-2 mb-5 btn btn-dark btn-xs">Nuevo Registro</button>
+
+        <div class="modal fade" id="reg-appointment" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Registrar Cita</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <h:form>
+                        <div class="modal-body">
+                            <h:selectOneMenu
+                                id="doctor"
+                                value="#{appointmentView.idDoctor}"              
+                                class="form-control mb-4">
+                                <f:selectItem itemLabel="Seleccione una opción"  noSelectionOption="true"/>
+                                <f:selectItems 
+                                    value="#{appointmentView.doctorList}" 
+                                    var="doctor" 
+                                    itemLabel="#{doctor.nombres}" itemValue="#{doctor.idmedicos}">
+                                </f:selectItems>
+                                <f:ajax render="hora" listener="#{appointmentView.showSchedule()}" event="change"></f:ajax>
+                            </h:selectOneMenu>
+                            <h:selectOneMenu
+                                id="patient"
+                                value="#{appointmentView.idPatient}"              
+                                class="form-control mb-4">
+                                <f:selectItem itemLabel="Seleccione una opción"  noSelectionOption="true"/>
+                                <f:selectItems 
+                                    value="#{appointmentView.patientList}" 
+                                    var="patient" itemLabel="#{patient.nombres}" 
+                                    itemValue="#{patient.idpaciente}" >
+                                </f:selectItems>
+                            </h:selectOneMenu>
+                            <div class="form-group">
+                                <h:outputLabel for="date-appointment" value="Fecha"></h:outputLabel>
+                                <h:message for="date-appointment"></h:message>
+                                <h:inputText
+                                    html5:placeholder="AAAA-MM-DD"
+                                    id="date-appointment"
+                                    class="form-control"
+                                    value="#{appointmentView.appointment.fechaCita}">
+                                    <f:convertDateTime pattern="yyyy-MM-dd" timeZone="America/Bogota" type="date" />
+                                </h:inputText>
+                            </div>
+                            <h:selectOneMenu id="hora" value="#{appointmentView.appointment.horaCita}" class="form-control" >
+                                <f:selectItems
+                                    value="#{appointmentView.scheduleDoctor}" 
+                                    var="h" itemLabel="#{h}:00"  itemValue="#{h}">
+                                </f:selectItems>
+                                <h:message for="hora"></h:message>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="modal-footer">
+                            <h:commandButton 
+                                class="btn btn-info" value="Agendar"
+                                action="#{appointmentView.addAppointment()}">
+                            </h:commandButton>
+                        </div>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </ui:composition>
+</html>
+

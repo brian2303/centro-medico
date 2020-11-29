@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:html5="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:composition template="../../WEB-INF/template/maqueta.xhtml">
+        <ui:define name="main">
+            <div class="container mt-3">
+                <div class="row">
+                    <div class="col">
+                        <h:form>
+                            <h:inputHidden value="#{doctorRequest.doctorEdit.idmedicos}"></h:inputHidden>
+                            <div class="form-group">
+                                <h:inputText
+                                    html5:placeholder="Nombres Completos..." 
+                                    class="form-control"
+                                    value="#{doctorRequest.doctorEdit.nombres}">
+                                </h:inputText>
+                            </div>
+                            <div class="form-group">
+                                <h:inputText 
+                                    html5:placeholder="Tarjeta Profesional" 
+                                    class="form-control"
+                                    value="#{doctorRequest.doctorEdit.tarjetaProfesional}">
+                                </h:inputText>
+                            </div>
+                            <h:selectOneMenu 
+                                value="#{doctorRequest.doctorEdit.tipoIdentificacion}"              
+                                class="form-control mb-4">
+                                <f:selectItem 
+                                    itemLabel="Cedula" 
+                                    itemValue="CC">
+                                </f:selectItem>
+                                <f:selectItem 
+                                    itemLabel="Cedula Extranjeria" 
+                                    itemValue="CE">
+                                </f:selectItem>
+                            </h:selectOneMenu>
+                            <div class="form-group">
+                                <h:inputText 
+                                    html5:placeholder="Nro. identificacion..." 
+                                    class="form-control"
+                                    value="#{doctorRequest.doctorEdit.identificacion}">
+                                </h:inputText>
+                            </div>
+                            <div class="form-group">
+                                <h:inputText html5:placeholder="Años de experiencia" 
+                                             class="form-control"
+                                             value="#{doctorRequest.doctorEdit.aniosExperiencia}">
+                                </h:inputText>
+                            </div>
+                            <div class="form-group">
+                                <h:inputText html5:placeholder="Inicio atención (Hora)" 
+                                             class="form-control"
+                                             value="#{doctorRequest.doctorEdit.horaInicioAtencion}">
+                                </h:inputText>
+                            </div>
+                            <div class="form-group">
+                                <h:inputText html5:placeholder="Fin atención (Hora)" 
+                                             class="form-control"
+                                             value="#{doctorRequest.doctorEdit.horaFinAtencion}">
+                                </h:inputText>
+                            </div>
+                            <div class="form-group">
+                                <h:inputText html5:placeholder="Especialidad" 
+                                             class="form-control"
+                                             value="#{doctorRequest.doctorEdit.especialidad}">
+                                </h:inputText>
+                            </div>
+                            <div class="modal-footer">
+                                <h:commandButton 
+                                    class="btn btn-info" value="Guardar"
+                                    action="#{doctorRequest.updateDoctor()}">
+                                </h:commandButton>
+                            </div>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>
