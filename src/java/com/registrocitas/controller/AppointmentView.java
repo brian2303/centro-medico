@@ -58,12 +58,12 @@ public class AppointmentView implements Serializable {
                 appointment.setIdpaciente(pacienteFacadeLocal.find(idPatient));
                 citasFacadeLocal.create(appointment);
                 appointmentList.add(appointment);
+                mensajeAlerta = "swal('Ok','Cita agendada exitosamente!','success');";
+                appointment = new Citas();
             }else{
                 mensajeAlerta = "swal('Oops','No hay agenda disponible para esta fecha!','error');";
-                PrimeFaces.current().executeScript(mensajeAlerta);
-                return;
             }
-            appointment = new Citas();
+            PrimeFaces.current().executeScript(mensajeAlerta);
         } catch (Exception e) {
             e.printStackTrace();
         }
