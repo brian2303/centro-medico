@@ -11,6 +11,7 @@ import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -51,18 +52,29 @@ public class PatientRequest {
     }
     
     public void addPatient(){
+        String message = "";
         try {
             pacienteFacadeLocal.create(patient);
             patientList.add(patient);
             patient = new Paciente();
+            message = "swal('Ok','paciente registrado exitosamente!','success');";
         } catch (Exception ex) {
+                message = "swal('Upss','No fue posible realizar esta transacción!','error');";
             ex.printStackTrace();
         }
+        PrimeFaces.current().executeScript(message);
     }
     
     public void removePatient(Paciente patient){
-        pacienteFacadeLocal.remove(patient);
-        patientList.remove(patient);
+        String message = "";
+        try {
+            pacienteFacadeLocal.remove(patient);
+            patientList.remove(patient);
+            message = "swal('Ok','paciente eliminado exitosamente!','success');";
+        } catch (Exception e) {
+            message = "swal('Upss','No fue posible realizar esta transacción!','error');";
+        }
+        PrimeFaces.current().executeScript(message);
     }
     
     /**

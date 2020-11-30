@@ -17,6 +17,7 @@ import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -40,8 +41,16 @@ public class DoctorRequest {
     
     
     public void addDoctor(){
-        medicosFacadeLocal.create(doctor);
-        doctorsList.add(doctor);
+        String message = "";
+        try {
+            medicosFacadeLocal.create(doctor);
+            doctorsList.add(doctor);
+            message = "swal('Ok','Doctor registrado!','success');";
+        } catch (Exception e) {
+            message = "swal('Upss!','Ocurrio un error!','error');";
+        }
+        PrimeFaces.current().executeScript(message);
+        
     }
     
     public String editDoctor(Medicos doctor){
@@ -50,6 +59,7 @@ public class DoctorRequest {
     }
     
     public void updateDoctor(){
+        String message = "";
         try {
             medicosFacadeLocal.edit(doctorEdit);
             doctorsList.clear();
@@ -57,15 +67,25 @@ public class DoctorRequest {
             doctorEdit = new Medicos();
             ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
             String url = ec.getRequestContextPath() + "/doctor" ;
+            message = "swal('Ok','Modificado!','success');";
             ec.redirect(url);
         } catch (IOException ex) {
-            Logger.getLogger(DoctorRequest.class.getName()).log(Level.SEVERE, null, ex);
+            message = "swal('Ok','Error interno','error');";
+            ex.printStackTrace();
         }
+        PrimeFaces.current().executeScript(message);
     }
     
     public void deleteDoctor(Medicos doctor){
-        medicosFacadeLocal.remove(doctor);
-        doctorsList.remove(doctor);
+        String message = "";
+        try {
+            medicosFacadeLocal.remove(doctor);
+            doctorsList.remove(doctor);
+            message = "swal('Ok','Eliminado!','success');";
+        } catch (Exception e) {
+            message = "swal('Ok','No fue posible eliminar!','error');";
+        }
+        PrimeFaces.current().executeScript(message);
     }
     
     public DoctorRequest() {

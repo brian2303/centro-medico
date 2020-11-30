@@ -52,18 +52,18 @@ public class AppointmentView implements Serializable {
     }
     
     public void addAppointment(){
-        String mensajeAlerta = "";
+        String message = "";
         try {
             if(isValid()){
                 appointment.setIdpaciente(pacienteFacadeLocal.find(idPatient));
                 citasFacadeLocal.create(appointment);
                 appointmentList.add(appointment);
-                mensajeAlerta = "swal('Ok','Cita agendada exitosamente!','success');";
+                message = "swal('Ok','Cita agendada exitosamente!','success');";
                 appointment = new Citas();
             }else{
-                mensajeAlerta = "swal('Oops','No hay agenda disponible para esta fecha!','error');";
+                message = "swal('Oops','No hay agenda disponible para esta fecha!','error');";
             }
-            PrimeFaces.current().executeScript(mensajeAlerta);
+            PrimeFaces.current().executeScript(message);
         } catch (Exception e) {
             e.printStackTrace();
         }
